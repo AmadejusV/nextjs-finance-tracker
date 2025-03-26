@@ -1,10 +1,10 @@
 const CACHE_NAME = "my-nextjs-pwa-cache";
 const urlsToCache = [
-  "/",
-  "/manifest.json",
-  "/acounts_icon.png",
-  "/addNewExpense",
-  "/edit/${yearlyData.year}",
+  "",
+  "manifest.json",
+  "acounts_icon.png",
+  "addNewExpense",
+  "edit/${yearlyData.year}",
 ];
 self.addEventListener("install", (event) => {
   event.waitUntil(
