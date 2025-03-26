@@ -28,7 +28,7 @@ export default function RootLayout({
       <body className="bg-gray-100">
         <Header />
         <ServiceWorkerRegister />
-        <div>{children}</div>
+        <main>{children}</main>
         <ToastContainer />
       </body>
     </html>

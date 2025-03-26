@@ -116,6 +116,7 @@ export const EditYear = ({ year }: Props) => {
     if (yearlyExpenseReport) {
       await deleteData(yearlyExpenseReport.year);
       router.push("/");
+      toast.success("Deleted successfully", { position: "bottom-right" });
     }
   };
 
@@ -123,7 +124,6 @@ export const EditYear = ({ year }: Props) => {
     e.preventDefault();
 
     if (yearlyExpenseReport) {
-      // Simple validation
       const isValid = yearlyExpenseReport.monthlyReports.every((report) => {
         if (!report.salary) return false;
         return report.expenses.every(
@@ -162,22 +162,22 @@ export const EditYear = ({ year }: Props) => {
         </h2>
         {yearlyExpenseReport.monthlyReports.map(
           (monthlyReport, monthlyIndex) => (
-            <div
+            <section
               key={monthlyReport.id}
               className="mb-6 p-4 border border-gray-300 rounded-lg"
             >
-              <div className="flex justify-between items-center">
-                <h3 className="text-xl font-semibold text-gray-700 mb-2">
+              <header className="flex justify-between items-center mb-2">
+                <h3 className="text-xl font-semibold text-gray-700">
                   Month: {monthlyReport.month}
                 </h3>
                 <button
                   type="button"
-                  className="text-red-500 hover:text-red-700"
+                  className="text-red-500 hover:text-red-700 border rounded py-1 px-2 cursor-pointer border-gray-300"
                   onClick={() => handleRemoveMonth(monthlyIndex)}
                 >
                   Remove Month
                 </button>
-              </div>
+              </header>
               <div className="mb-2">
                 <label
                   htmlFor={`salary-${monthlyIndex}`}
@@ -187,6 +187,7 @@ export const EditYear = ({ year }: Props) => {
                 </label>
                 <input
                   id={`salary-${monthlyIndex}`}
+                  name={`salary-${monthlyIndex}`}
                   type="number"
                   step="0.01"
                   className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none"
@@ -206,12 +207,13 @@ export const EditYear = ({ year }: Props) => {
                   <div className="w-1/2">
                     <label
                       htmlFor={`expenseName-${monthlyIndex}-${expenseIndex}`}
-                      className="block text-gray-700 "
+                      className="block text-gray-700"
                     >
                       Expense Name
                     </label>
                     <input
                       id={`expenseName-${monthlyIndex}-${expenseIndex}`}
+                      name={`expenseName-${monthlyIndex}-${expenseIndex}`}
                       type="text"
                       className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none"
                       value={expense.expenseName}
@@ -229,12 +231,13 @@ export const EditYear = ({ year }: Props) => {
                   <div className="w-1/2">
                     <label
                       htmlFor={`expenseCost-${monthlyIndex}-${expenseIndex}`}
-                      className="block text-gray-700 "
+                      className="block text-gray-700"
                     >
                       Expense Cost
                     </label>
                     <input
                       id={`expenseCost-${monthlyIndex}-${expenseIndex}`}
+                      name={`expenseCost-${monthlyIndex}-${expenseIndex}`}
                       type="number"
                       step="0.01"
                       className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none"
@@ -252,7 +255,7 @@ export const EditYear = ({ year }: Props) => {
                   </div>
                   <button
                     type="button"
-                    className="text-red-500 hover:text-red-700 self-end"
+                    className="text-red-500 hover:text-red-700 self-end border border-gray-300 rounded cursor-pointer"
                     onClick={() =>
                       handleRemoveExpense(monthlyIndex, expenseIndex)
                     }
@@ -261,22 +264,24 @@ export const EditYear = ({ year }: Props) => {
                   </button>
                 </div>
               ))}
-            </div>
+            </section>
           )
         )}
-        <button
-          type="submit"
-          className="cursor-pointer w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition duration-300"
-        >
-          Save
-        </button>
-        <button
-          type="button"
-          className="cursor-pointer w-full bg-red-400 text-white p-3 rounded-lg hover:bg-red-500 transition duration-300 mt-4"
-          onClick={handleDeleteYear}
-        >
-          Delete Year
-        </button>
+        <footer className="mt-4">
+          <button
+            type="submit"
+            className="cursor-pointer w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition duration-300 font-bold"
+          >
+            Save
+          </button>
+          <button
+            type="button"
+            className="cursor-pointer w-full bg-red-400 text-white p-3 rounded-lg hover:bg-red-500 transition duration-300 mt-4 font-bold"
+            onClick={handleDeleteYear}
+          >
+            Delete Year
+          </button>
+        </footer>
       </form>
     </main>
   );

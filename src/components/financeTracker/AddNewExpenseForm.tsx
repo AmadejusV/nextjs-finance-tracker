@@ -227,30 +227,36 @@ export const AddNewExpenseForm = () => {
       className="bg-white rounded-2xl shadow-lg p-8 m-4 w-full max-w-md"
       onSubmit={handleSubmit}
     >
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">Add new Expense</h2>
+      <h2 className="text-2xl font-bold mb-6 text-gray-800">Add New Expense</h2>
+
       <div className="mb-4">
         <label htmlFor="year" className="block text-gray-700 mb-2">
           Year
         </label>
         <input
           id="year"
+          name="year"
           type="number"
           className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none"
           value={year}
           onChange={(e) => handleYearChange(e.target.value)}
-          min={1975} //MAGIC NUMBER BECAUES INDEXEDDB SHOULDNT BE THE MAIN DB USING SSR AND DYNAMIC PAGES
+          min={1975} // IndexedDB should not be the main DB using SSR and dynamic pages
           max={new Date().getFullYear()}
+          required
         />
       </div>
+
       <div className="mb-4">
         <label htmlFor="month" className="block text-gray-700 mb-2">
           Month
         </label>
         <select
           id="month"
-          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none  appearance-none dropdownStyle"
+          name="month"
+          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none appearance-none dropdownStyle"
           value={month}
           onChange={(e) => handleMonthChange(e.target.value)}
+          required
         >
           <option value="" disabled>
             Select a month
@@ -262,45 +268,55 @@ export const AddNewExpenseForm = () => {
           ))}
         </select>
       </div>
+
       <div className="mb-4">
         <label htmlFor="salary" className="block text-gray-700 mb-2">
           Salary
         </label>
         <input
           id="salary"
+          name="salary"
           type="number"
           step="0.01"
           className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none"
           value={salary}
           onChange={(e) => handleSalaryChange(e.target.value)}
+          required
         />
       </div>
+
       <div className="mb-4">
         <label htmlFor="expense" className="block text-gray-700 mb-2">
           Expense Name
         </label>
         <input
           id="expense"
+          name="expense"
           type="text"
           className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none"
           value={expenseName}
           onChange={(e) => handleExpenseNameChange(e.target.value)}
+          required
         />
       </div>
+
       <div className="mb-4">
         <label htmlFor="amount" className="block text-gray-700 mb-2">
           Amount
         </label>
         <input
           id="amount"
+          name="amount"
           type="number"
           step="0.01"
           min={0}
           className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none"
           value={expenseCost}
           onChange={(e) => handleAmountChange(e.target.value)}
+          required
         />
       </div>
+
       <button
         type="submit"
         disabled={submitting}
