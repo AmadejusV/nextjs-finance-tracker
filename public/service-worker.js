@@ -1,10 +1,23 @@
+export const generateMockYearUrls = () => {
+  const MOCK_START_YEAR = 1975;
+  const currentYear = new Date().getFullYear();
+  const allowedYears = [];
+
+  for (let i = MOCK_START_YEAR; i <= currentYear; i++) {
+    allowedYears.push({ year: `edit/${i.toString()}` });
+  }
+
+  return allowedYears;
+};
+
+const generatedYearUrls = generateMockYearUrls();
 const CACHE_NAME = "my-nextjs-pwa-cache";
 const urlsToCache = [
-  "/",
-  "/manifest.json",
-  "/accounts_icon.png",
-  "/addNewExpense",
-  "/edit/[year]",
+  "",
+  "manifest.json",
+  "accounts_icon.png",
+  "addNewExpense",
+  ...generatedYearUrls,
 ];
 
 self.addEventListener("install", (event) => {
