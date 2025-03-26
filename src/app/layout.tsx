@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
 import { ServiceWorkerRegister } from "@/components/ServiceWorkerRegister";
+import { ToastContainer } from "react-toastify";
 
 export const metadata: Metadata = {
   title: "PWASSRAPP",
@@ -28,6 +29,7 @@ export default function RootLayout({
         <Header />
         <ServiceWorkerRegister />
         <div>{children}</div>
+        <ToastContainer />
       </body>
     </html>
   );

@@ -16,6 +16,7 @@ import {
   updateData,
 } from "@/indexedDb/indexedDb";
 import "@/components/styles.css";
+import { toast } from "react-toastify";
 
 const generateUniqueId = (): string => {
   return Math.random().toString(36).substr(2, 9);
@@ -127,7 +128,8 @@ export const AddNewExpenseForm = () => {
   const [yearlyFinanceData, setYearlyFinanceData] = useState<
     YearlyExpenseReport[]
   >([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingData, setIsLoadingData] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
   const [{ expenseCost, expenseName, month, year, salary }, setExpenseForm] =
     useState<FormData>({
       month: currentMonth,
@@ -146,10 +148,10 @@ export const AddNewExpenseForm = () => {
           ...prev,
           salary: getSalary(currentYear, currentMonth, data),
         }));
-        setIsLoading(false);
+        setIsLoadingData(false);
       } catch (err) {
         console.error(err);
-        setIsLoading(false);
+        setIsLoadingData(false);
       }
     };
 
@@ -195,6 +197,8 @@ export const AddNewExpenseForm = () => {
       return;
     }
 
+    setSubmitting(true);
+
     const objectStore = await openDatabase(DB_STORE_NAME, "readwrite");
     const foundYearData = await getDataByYear(objectStore, parseInt(year));
 
@@ -211,9 +215,12 @@ export const AddNewExpenseForm = () => {
     } else {
       await addFirstExpenseToYear(objectStore, formData);
     }
+    setExpenseForm((prev) => ({ ...prev, expenseCost: "", expenseName: "" }));
+    setSubmitting(false);
+    toast.success("Expense info created", { position: "bottom-right" });
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoadingData) return <p>Loading...</p>;
 
   return (
     <form
@@ -231,6 +238,8 @@ export const AddNewExpenseForm = () => {
           className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none"
           value={year}
           onChange={(e) => handleYearChange(e.target.value)}
+          min={1975} //MAGIC NUMBER BECAUES INDEXEDDB SHOULDNT BE THE MAIN DB USING SSR AND DYNAMIC PAGES
+          max={new Date().getFullYear()}
         />
       </div>
       <div className="mb-4">
@@ -294,7 +303,10 @@ export const AddNewExpenseForm = () => {
       </div>
       <button
         type="submit"
-        className="cursor-pointer w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition duration-300"
+        disabled={submitting}
+        className={`cursor-pointer w-full ${
+          submitting ? "bg-gray-500" : "bg-blue-500 hover:bg-blue-600"
+        } text-white p-3 rounded-lg transition duration-300`}
       >
         Submit
       </button>

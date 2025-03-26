@@ -1,4 +1,4 @@
-export const generateMockYearUrls = () => {
+const generateMockYearUrls = () => {
   const MOCK_START_YEAR = 1975;
   const currentYear = new Date().getFullYear();
   const allowedYears = [];
@@ -21,10 +21,8 @@ const urlsToCache = [
 ];
 
 self.addEventListener("install", (event) => {
-  console.log("adding install listener");
   event.waitUntil(
     caches.open(CACHE_NAME).then(async (cache) => {
-      console.log("adding", { cache });
       return await cache.addAll(urlsToCache).catch((error) => {
         console.error("Failed to cache:", error);
       });
@@ -33,7 +31,6 @@ self.addEventListener("install", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
-  console.log("adding fetch listener");
   event.respondWith(
     caches.match(event.request).then((response) => {
       return response || fetch(event.request);

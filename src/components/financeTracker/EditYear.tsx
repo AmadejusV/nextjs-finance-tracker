@@ -11,6 +11,7 @@ import {
 } from "@/indexedDb/indexedDb";
 import { YearlyExpenseReport } from "./model";
 import "@/components/styles.css";
+import { toast } from "react-toastify";
 
 interface Props {
   year: string;
@@ -137,6 +138,8 @@ export const EditYear = ({ year }: Props) => {
 
       const objectStore = await openDatabase(DB_STORE_NAME, "readwrite");
       await updateData(objectStore, yearlyExpenseReport);
+
+      toast.success("Year expenses updated", { position: "bottom-right" });
     }
   };
 
@@ -269,7 +272,7 @@ export const EditYear = ({ year }: Props) => {
         </button>
         <button
           type="button"
-          className="cursor-pointer w-full bg-red-500 text-white p-3 rounded-lg hover:bg-red-600 transition duration-300 mt-4"
+          className="cursor-pointer w-full bg-red-400 text-white p-3 rounded-lg hover:bg-red-500 transition duration-300 mt-4"
           onClick={handleDeleteYear}
         >
           Delete Year
