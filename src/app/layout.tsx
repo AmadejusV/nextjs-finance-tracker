@@ -19,10 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="manifest" href="/manifest.json" />
+        <link rel="manifest" href="manifest.json" />
         <meta name="theme-color" content="#000000" />
-        <link rel="icon" href="/acounts_icon.png" />
-        <link rel="apple-touch-icon" href="/acounts_icon.png" />
+        <link rel="icon" href="acounts_icon.png" />
+        <link rel="apple-touch-icon" href="acounts_icon.png" />
       </head>
       <body className="bg-gray-100">
         <Header />
