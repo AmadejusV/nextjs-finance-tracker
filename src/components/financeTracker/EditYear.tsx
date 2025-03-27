@@ -12,6 +12,7 @@ import {
 import { YearlyExpenseReport } from "./model";
 import "@/components/styles.css";
 import { toast } from "react-toastify";
+import { MonthlyReportCard } from "../edit/MonthlyReportCard";
 
 interface Props {
   year: string;
@@ -162,109 +163,15 @@ export const EditYear = ({ year }: Props) => {
         </h2>
         {yearlyExpenseReport.monthlyReports.map(
           (monthlyReport, monthlyIndex) => (
-            <section
+            <MonthlyReportCard
               key={monthlyReport.id}
-              className="mb-6 p-4 border border-gray-300 rounded-lg"
-            >
-              <header className="flex justify-between items-center mb-2">
-                <h3 className="text-xl font-semibold text-gray-700">
-                  Month: {monthlyReport.month}
-                </h3>
-                <button
-                  type="button"
-                  className="text-red-500 hover:text-red-700 border rounded py-1 px-2 cursor-pointer border-gray-300"
-                  onClick={() => handleRemoveMonth(monthlyIndex)}
-                >
-                  Remove Month
-                </button>
-              </header>
-              <div className="mb-2">
-                <label
-                  htmlFor={`salary-${monthlyIndex}`}
-                  className="block text-gray-700"
-                >
-                  Monthly Salary
-                </label>
-                <input
-                  id={`salary-${monthlyIndex}`}
-                  name={`salary-${monthlyIndex}`}
-                  type="number"
-                  step="0.01"
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none"
-                  value={monthlyReport.salary}
-                  onChange={(e) =>
-                    handleMonthlyReportChange(
-                      monthlyIndex,
-                      "salary",
-                      parseFloat(e.target.value)
-                    )
-                  }
-                  required
-                />
-              </div>
-              {monthlyReport.expenses.map((expense, expenseIndex) => (
-                <div key={expense.id} className="mb-2 flex gap-4 items-center">
-                  <div className="w-1/2">
-                    <label
-                      htmlFor={`expenseName-${monthlyIndex}-${expenseIndex}`}
-                      className="block text-gray-700"
-                    >
-                      Expense Name
-                    </label>
-                    <input
-                      id={`expenseName-${monthlyIndex}-${expenseIndex}`}
-                      name={`expenseName-${monthlyIndex}-${expenseIndex}`}
-                      type="text"
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none"
-                      value={expense.expenseName}
-                      onChange={(e) =>
-                        handleExpenseChange(
-                          monthlyIndex,
-                          expenseIndex,
-                          "expenseName",
-                          e.target.value
-                        )
-                      }
-                      required
-                    />
-                  </div>
-                  <div className="w-1/2">
-                    <label
-                      htmlFor={`expenseCost-${monthlyIndex}-${expenseIndex}`}
-                      className="block text-gray-700"
-                    >
-                      Expense Cost
-                    </label>
-                    <input
-                      id={`expenseCost-${monthlyIndex}-${expenseIndex}`}
-                      name={`expenseCost-${monthlyIndex}-${expenseIndex}`}
-                      type="number"
-                      step="0.01"
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none"
-                      value={expense.expenseCost}
-                      onChange={(e) =>
-                        handleExpenseChange(
-                          monthlyIndex,
-                          expenseIndex,
-                          "expenseCost",
-                          parseFloat(e.target.value)
-                        )
-                      }
-                      required
-                    />
-                  </div>
-                  <button
-                    type="button"
-                    className="text-red-500 hover:text-red-700 self-end border border-gray-300 rounded cursor-pointer"
-                    onClick={() =>
-                      handleRemoveExpense(monthlyIndex, expenseIndex)
-                    }
-                  >
-                    Remove Expense
-                  </button>
-                </div>
-              ))}
-            </section>
+              monthlyIndex={monthlyIndex}
+              monthlyReport={monthlyReport}
+              onExpenseChange={handleExpenseChange}
+              onMonthlyReportChange={handleMonthlyReportChange}
+              onRemoveExpense={handleRemoveExpense}
+              onRemoveMonth={handleRemoveMonth}
+            />
           )
         )}
         <footer className="mt-4">
